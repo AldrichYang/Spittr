@@ -40,7 +40,7 @@ public class SpittleControllerTest {
         mockMvc.perform(get("/spittles"))
                 .andExpect(view().name("spittles"))
                 .andExpect(model().attributeExists("spittleList"))
-                .andExpect(model().attribute("spittleList", CoreMatchers.hasItem(expectedSpittles.toArray())));
+                .andExpect(model().attribute("spittleList", CoreMatchers.hasItems(expectedSpittles.toArray())));
 
 
     }
