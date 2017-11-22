@@ -1,4 +1,4 @@
-package web;
+package contorller;
 
 import dao.SpittleRepository;
 import model.Spittle;
