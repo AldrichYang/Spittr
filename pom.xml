@@ -5,10 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.yh</groupId>
-    <artifactId>Spittr</artifactId>
+    <artifactId>spittr</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -40,31 +39,78 @@
             <artifactId>mockito-core</artifactId>
             <version>2.12.0</version>
         </dependency>
+        <!--注意servlet-api和jsp-api，它们为servlet和jsp的编写提供支持。这两个包的依赖的scope是provided,表示最终不会被打入到war文件中
+        这是因为几乎所有的web容器都会提供这两个类库，如果war包重复出现，就会导致潜在的依赖冲突问题-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.0.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>
-        <plugins><plugin>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>2.2</version>
-            <configuration>
-                <failOnMissingWebXml>false</failOnMissingWebXml>
-            </configuration>
-        </plugin>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <!--默认会把src.main.webapp目录打入当做webresources打入war包。这里可以配置排除一些资源-->
+                    <!--<webResources>-->
+                        <!--<resource>-->
+                            <!--<directory>src/main/webapp</directory>-->
+                        <!--</resource>-->
+                    <!--</webResources>-->
+                </configuration>
+            </plugin>
+            <!--构建源码jar和doc的jar-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-source-plugin</artifactId>-->
+                <!--<version>2.1.2</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>attach-sources</id>-->
+                        <!--<phase>verify</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>jar-no-fork</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-javadoc-plugin</artifactId>-->
+                <!--<version>2.7</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>attach-javadocs</id>-->
+                        <!--<goals>-->
+                            <!--<goal>jar</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

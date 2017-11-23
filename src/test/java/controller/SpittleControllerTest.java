@@ -1,4 +1,4 @@
-package contorller;
+package controller;
 
 import dao.SpittleRepository;
 import model.Spittle;
