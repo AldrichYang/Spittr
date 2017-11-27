@@ -30,7 +30,9 @@ public class SpitterController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String showRegistrationForm() {
+    public String showRegistrationForm(Model model) {
+//        模型中的key是根据对象类型推断得到的
+        model.addAttribute("spitter",new Spitter());
         return "registerForm";
     }
 

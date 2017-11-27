@@ -27,6 +27,8 @@ public class Spitter {
     @Size(min = 2, max = 30)
     private String lastName;
 
+    private String email;
+
 
     public Spitter() {
 
@@ -87,5 +89,13 @@ public class Spitter {
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this, "id");
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
