@@ -10,6 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.thymeleaf.templateresolver.TemplateResolver;
 
 /**
  * Created by yh on 17/11/21.
@@ -55,11 +59,44 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     /**
      * TilesViewRe-solver会将逻辑视图名称解析为引用Tile定义的视图。它是通过查找与逻辑视图名称相匹配的Tile定义实现该功 能的
+     *
      * @return
      */
     @Bean
     public ViewResolver viewResolverTiles() {
         return new TilesViewResolver();
+    }
+
+//    Spring中使用Thymeleaf,我们需要配置三个启用Thymeleaf与Spring集成的bean:
+//      ThymeleafViewResolver:将逻辑视图名称解析为Thymeleaf模板视图;
+//      SpringTemplateEngine:处理模板并渲染结果;
+//      TemplateResolver:加载Thymeleaf模板。
+
+    @Bean
+    public TemplateResolver templateResolver() {
+        TemplateResolver templateResolver = new ServletContextTemplateResolver();
+        templateResolver.setPrefix("/WEB-INF/templates/");
+        templateResolver.setSuffix(".html");
+        // HTML is the default value, added here for the sake of clarity.
+        templateResolver.setTemplateMode("HTML5");
+//        templateResolver.setCacheable(true);
+        return templateResolver;
+    }
+
+    @Bean
+    public SpringTemplateEngine templateEngine() {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        return templateEngine;
+    }
+
+    @Bean
+    public ViewResolver viewResolverThymeleaf() {
+//        ThymeleafViewResolver是Spring MVC中ViewResolver的一个实现类。
+// 像其他的视图解析器一样,它会接受一个逻辑视图名称,并将其解析为视图。不过在该场景下,视图会是一个 Thymeleaf模板。
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(templateEngine());
+        return viewResolver;
     }
 
 

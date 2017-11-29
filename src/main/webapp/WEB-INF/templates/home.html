@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><!--声明Thymeleaf命名空间-->
+<head>
+    <title>Spitter</title>
+</head>
+<body>
+<!--这在于它与纯HTML模板 非常接近。唯一的区别之处在于th:href属性,否则的话,它就是基础且功能丰富的HTML文件-->
+<h1>Welcome to Spitter Using Thymeleaf</h1>
+<!--th:href属性的特殊之处在于它的值中可以包 含Thymeleaf表达式-->
+<a th:href="@{/spittles}">Spittles</a> |
+<a th:href="@{/spitter/register}">">Register</a>
+</body>
+</html>

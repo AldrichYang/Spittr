@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spittr</title>
+</head>
+<body>
+
+<H1>Register When Using Thymeleaf</H1>
+<form method="post" th:object="${spitter}">
+    <!--使用th:if属性来检查是否有校验错误。如果有的话,会渲染<div>,否则的话,它将不会渲 染。-->
+    <div class="errors" th:if="${#fields.hasErrors('*')}">
+        <ul>
+            <!--<li>标签上的th:each属性将会通知Thymeleaf为每项错误都渲染一个<li>,在每次迭代中会将当前错误设置到一个名为err的变量 中。-->
+            <!--th:text属性。这个命令会通知Thymeleaf计算某一个表达式(在本例中,也 就是err变量)并将它的值渲染为<li>标签的内容体-->
+            <li th:each="err: ${#fields.errors('*')}"
+                th:text="${err}">
+                Input is incorrect
+            </li>
+        </ul>
+
+    </div>
+    <label th:class="${#fields.hasErrors('firstName')} ? 'error'"> First Name</label>:
+    <input type="text" th:field="*{firstName}"/>
+
+    <input type="submit" value="Register">
+</form>
+</body>
+</html>
