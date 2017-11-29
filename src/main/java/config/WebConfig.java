@@ -8,6 +8,8 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
+import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 /**
  * Created by yh on 17/11/21.
@@ -33,6 +35,31 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         //我们要求DispatcherServlet将对静态资源的请求转发到Servlet容器中默认的Servlet上,而不是使用DispatcherServlet本身来处理此类请求。
         configurer.enable();
+    }
+
+    /**
+     * 配置启用apache tiles 布局功能
+     * TilesConfigurer会加载Tile定义并与Apache Tiles协作
+     *
+     * @return
+     */
+    @Bean
+    public TilesConfigurer tilesConfigurer() {
+        TilesConfigurer tiles = new TilesConfigurer();
+//        tiles.setDefinitions("/WEB-INF/layout/tiles.xml"); /*指定Tiles定义的位置*/
+        tiles.setDefinitions("/WEB-INF/**/tiles.xml"); /*Ant风格的通配符(**)，TilesConfigurer会遍历“WEB-INF/”的 所有子目录来查找Tile定义*/
+        tiles.setCheckRefresh(true);  /*启动自动刷新功能*/
+
+        return tiles;
+    }
+
+    /**
+     * TilesViewRe-solver会将逻辑视图名称解析为引用Tile定义的视图。它是通过查找与逻辑视图名称相匹配的Tile定义实现该功 能的
+     * @return
+     */
+    @Bean
+    public ViewResolver viewResolverTiles() {
+        return new TilesViewResolver();
     }
 
 

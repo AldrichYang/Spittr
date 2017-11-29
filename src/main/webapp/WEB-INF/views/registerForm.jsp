@@ -8,7 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%--spring表单模型绑定的标签库--%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%--spring通用标签库--%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <title>Spittr</title>
