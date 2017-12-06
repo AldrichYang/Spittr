@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <!--我们都更倾向于使用Java配置而不是XML配置。因此,我们需要让Spring MVC在启动的时候,从带有@Configuration注解的类上加载配置。
+        要在Spring MVC中使用基于Java的配置,我们需要告诉DispatcherServlet和ContextLoaderListener使用AnnotationConfigWebApplicationContext,
+        这是一个WebApplicationContext的实现类,它会加载Java配置类,而不是使用XML。
+        要实现这种配置,我们可以设置contextClass上下文参数以及DispatcherServlet的初始化参数-->
+
+    <!--使用Java配置-->
+    <context-param>
+        <param-name>contextInitializerClasses</param-name>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </context-param>
+    <!--指定根配置类-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>config.RootConfig</param-value>
+    </context-param>
+
+    <!--注册ContextLoaderListener-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>appServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        <!--使用Java配置-->
+        <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+        </init-param>
+        <!--指定DispatcherServlet配置类-->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>config.WebConfig</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <!--将DispatcherServlet映射到/上-->
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+</web-app>
