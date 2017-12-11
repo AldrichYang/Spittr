@@ -9,8 +9,12 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by yh on 17/11/24.
@@ -32,7 +36,7 @@ public class SpitterController {
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String showRegistrationForm(Model model) {
 //        模型中的key是根据对象类型推断得到的
-        model.addAttribute("spitter",new Spitter());
+        model.addAttribute("spitter", new Spitter());
         return "registerForm";
     }
 
@@ -52,6 +56,21 @@ public class SpitterController {
         Spitter spitter = spitterRepository.findByUserName(username);
         model.addAttribute(spitter);
         return "profile";
+
+    }
+
+    // multipart样式的数据处理 ，使用Spring的requestPart注解和MultipartFile接口来处理
+    @RequestMapping(value = "/registerMultiPart", method = RequestMethod.POST)
+    public String processRegistrationMulti(@RequestPart("profilePicture") MultipartFile profilePicture) {
+        try {
+//            spring提供的写入文件的方法
+            profilePicture.transferTo(new File("/data/spittr" + profilePicture.getName()));
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        return "registerForm";
 
     }
 

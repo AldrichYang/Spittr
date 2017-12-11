@@ -3,6 +3,8 @@ package config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -97,6 +99,19 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         return viewResolver;
+    }
+
+    /**
+     * DispatcherServlet并没有实现任何解析multipart请求数据的功能。
+     * 它将该任务委托给了 Spring中MultipartResolver策略接口的实现,通过这个实现类来解析multipart请求中的内 容。
+     * 从Spring 3.1开始,Spring内置了两个MultipartResolver的实现供我们选择:
+     * CommonsMultipartResolver:使用Jakarta Commons FileUpload解析multipart请求;
+     * StandardServletMultipartResolver:依赖于Servlet 3.0对multipart请求的支持(始于Spring 3.1)
+     * @return
+     */
+    @Bean
+    public MultipartResolver multipartResolver(){
+        return new StandardServletMultipartResolver();
     }
 
 
