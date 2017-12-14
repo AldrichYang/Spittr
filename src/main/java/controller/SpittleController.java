@@ -1,6 +1,7 @@
 package controller;
 
 import dao.SpittleRepository;
+import infra.exception.DuplicateSpittleException;
 import infra.exception.SpittleNotFoundException;
 import model.Spittle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -105,5 +107,20 @@ public class SpittleController {
         return "spittle";
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public String saveSpittle(Spittle form, Model model) {
+        spittleRepository.save(new Spittle(form.getMessage(), new Date(), form.getLongitude(), form.getLatitude()));
+        return "redirect:/spittles";
+    }
+
+    /**
+     * 对于@ExceptionHandler注解标注的方法来说,比较有意思的一点在于它能处理同一个控制器中所有处理器方法所抛出的异常
+     * @return
+     */
+    @ExceptionHandler(DuplicateSpittleException.class)
+    public String handleDuplicateSpittle() {
+        return "error/duplicate";
+
+    }
 
 }

@@ -23,4 +23,8 @@ public class SpittleRepositoryImpl implements SpittleRepository {
     public Spittle findOne(long spittleId) {
         return null;
     }
+
+    public Spittle save(Spittle spittle) {
+        return null;
+    }
 }

@@ -13,4 +13,6 @@ public interface SpittleRepository {
 
     Spittle findOne(long spittleId);
 
+    Spittle save(Spittle spittle);
+
 }
