@@ -1,6 +1,7 @@
 package config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import security.SecurityConfig;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
@@ -16,7 +17,7 @@ public class SpittrWebAppInitializer extends AbstractAnnotationConfigDispatcherS
      * @return
      */
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{RootConfig.class};
+        return new Class<?>[]{RootConfig.class, SecurityConfig.class};
     }
 
     /**

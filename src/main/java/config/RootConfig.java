@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * Created by yh on 17/11/21.
  */
 @Configuration
-@ComponentScan(basePackages = {"dao","biz"},
+@ComponentScan(basePackages = {"dao", "biz"},
         excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class)})
 public class RootConfig {
 
