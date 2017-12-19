@@ -45,9 +45,9 @@ public class SpittleController {
     public String spittles(@RequestParam(value = "max", defaultValue = MAX_LONG_AS_STRING) long max,
                            @RequestParam(value = "count", defaultValue = "20") int count,
                            Model model) {
-        //当调用addAttribute()方法并且不指定key的时候,那么key会根据值的对象类型推断确定。在本例中,因为它是一个List<Spittle>,因此,键将会推断为spittleList。
-        model.addAttribute(spittleRepository.findSpittles(max, count));
+//        当调用addAttribute()方法并且不指定key的时候,那么key会根据值的对象类型推断确定。在本例中,因为它是一个List<Spittle>,因此,键将会推断为spittleList。
 //        model.addAttribute("spittleList", spittleRepository.findSpittles(Long.MAX_VALUE, 20));
+        model.addAttribute(spittleRepository.findSpittles(max, count));
 
         return "spittles";
     }
@@ -59,7 +59,7 @@ public class SpittleController {
      *
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(path = "/spittles1", method = RequestMethod.GET)
     public List<Spittle> spittles1() {
         return spittleRepository.findSpittles(Long.MAX_VALUE, 20);
     }
@@ -100,14 +100,14 @@ public class SpittleController {
 
         Spittle spittle = spittleRepository.findOne(spittleId);
         if (Objects.isNull(spittle)) {
-//            如果出现任何没有映射的异常,响应都会带有500状态码
+//       如果出现任何没有映射的异常,响应都会带有500状态码
             throw new SpittleNotFoundException();
         }
         model.addAttribute(spittle);
         return "spittle";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(path = "/saveSpittle", method = RequestMethod.POST)
     public String saveSpittle(Spittle form, Model model) {
         spittleRepository.save(new Spittle(form.getMessage(), new Date(), form.getLongitude(), form.getLatitude()));
         return "redirect:/spittles";
@@ -115,6 +115,7 @@ public class SpittleController {
 
     /**
      * 对于@ExceptionHandler注解标注的方法来说,比较有意思的一点在于它能处理同一个控制器中所有处理器方法所抛出的异常
+     *
      * @return
      */
     @ExceptionHandler(DuplicateSpittleException.class)

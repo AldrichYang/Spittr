@@ -43,27 +43,27 @@ public class SpitterController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String processRegistration(@Valid Spitter spitter, Model model, Errors errors) {
-        //使用注解启用校验
+//        使用注解启用校验
         if (errors.hasErrors()) {
             return "registerForm";
         }
         spitterRepository.save(spitter);
         model.addAttribute("username", spitter.getUsername());
         model.addAttribute("spitterId", null);
-        //重定向到基本信息页，url拼接
+//        法1：重定向到基本信息页，url拼接
 //        return "redirect:/spitter/" + spitter.getUsername();
-        //重定向,url模板占位符方式
+//        法2：重定向,url模板占位符方式
 //        重定向String并没有太大的变化。但是,因为模型中的spitterId属性没有匹配重定 向URL中的任何占位符,所以它会自动以查询参数的形式附加到重定向URL上。
 //        如果username属性的值是habuma并且spitterId属性的值是42,那么结果得到的重定向URL 路径将会是“/spitter/habuma?spitterId=42”
         return "redirect:/spitter/{username}";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register2", method = RequestMethod.POST)
     public String processRegistrationWithFlash(@Valid Spitter spitter, RedirectAttributes model) {
         spitterRepository.save(spitter);
         model.addAttribute("username", spitter.getUsername());
         model.addFlashAttribute("spitter", spitter);
-        //重定向到基本信息页，使用Flash属性
+//        重定向到基本信息页，使用Flash属性
         return "redirect:/spitter/{username}";
     }
 
@@ -76,7 +76,9 @@ public class SpitterController {
 
     }
 
-    // multipart样式的数据处理 ，使用Spring的requestPart注解和MultipartFile接口来处理
+    /**
+     * multipart样式的数据处理 ，使用Spring的requestPart注解和MultipartFile接口来处理
+     */
     @RequestMapping(value = "/registerMultiPart", method = RequestMethod.POST)
     public String processRegistrationMulti(@RequestPart("profilePicture") MultipartFile profilePicture) {
         try {

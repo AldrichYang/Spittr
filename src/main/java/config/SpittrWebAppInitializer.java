@@ -7,10 +7,10 @@ import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
 /**
- * Created by yh on 17/11/21.
+ * 扩展AbstractAnnotationConfigDispatcherServlet- Initializer快速搭建了Spring MVC环境
+ * 这个便利的基础类中,假设我们需要基本的DispatcherServlet和ContextLoaderListener环境,并且Spring配置是使用Java的, 而不是XML
  */
-// 扩展AbstractAnnotationConfigDispatcherServlet- Initializer快速搭建了Spring MVC环境
-// 这个便利的基础类中,假设我们需要基本的DispatcherServlet和ContextLoaderListener环境,并且Spring配置是使用Java的, 而不是XML
+
 public class SpittrWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     /**
      * @return
@@ -53,6 +53,7 @@ public class SpittrWebAppInitializer extends AbstractAnnotationConfigDispatcherS
 
     /**
      * 返回的所有Filter都会映射到DispatcherServlet上
+     *
      * @return
      */
     @Override
