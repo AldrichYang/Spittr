@@ -1,4 +1,4 @@
-package config;
+package config.initializer;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.servlet.DispatcherServlet;

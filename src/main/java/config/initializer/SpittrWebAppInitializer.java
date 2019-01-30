@@ -1,7 +1,9 @@
-package config;
+package config.initializer;
 
+import config.RootConfig;
+import config.SecurityConfig;
+import config.WebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import security.SecurityConfig;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
@@ -35,7 +37,7 @@ public class SpittrWebAppInitializer extends AbstractAnnotationConfigDispatcherS
      * @return
      */
     protected String[] getServletMappings() {
-        return new String[]{"/"};
+        return new String[]{"/", "*.service"};
     }
 
     /**
