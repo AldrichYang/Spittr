@@ -21,7 +21,7 @@ public class RPCServiceTest {
 
     @Test
     public void hessianRPC() {
-        spitterService.helloSpitter();
+        System.out.println(spitterService.helloSpitter());
     }
 
 

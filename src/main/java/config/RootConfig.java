@@ -1,7 +1,9 @@
 package config;
 
-import infra.config.IngoreCondition;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.remoting.caucho.HessianProxyFactoryBean;
 import org.springframework.remoting.caucho.HessianServiceExporter;
 import org.springframework.web.servlet.HandlerMapping;
@@ -49,6 +51,7 @@ public class RootConfig {
         Properties mappings = new Properties();
         mappings.setProperty("/spitter.service", "hessianExportedSpitterService");
         mapping.setMappings(mappings);
+        mapping.setOrder(4);
         return mapping;
     }
 
@@ -58,12 +61,14 @@ public class RootConfig {
      * @return
      */
     @Bean
-    @Conditional(IngoreCondition.class)
     public HessianProxyFactoryBean spitterService() {
         HessianProxyFactoryBean proxyFactoryBean = new HessianProxyFactoryBean();
         proxyFactoryBean.setServiceUrl("http://localhost:8080/spittr/spitter.service");
         proxyFactoryBean.setServiceInterface(SpitterService.class);
         return proxyFactoryBean;
     }
+
+
+
 
 }

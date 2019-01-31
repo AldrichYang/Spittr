@@ -1,7 +1,6 @@
 package config.initializer;
 
 import config.RootConfig;
-import config.SecurityConfig;
 import config.WebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -19,11 +18,11 @@ public class SpittrWebAppInitializer extends AbstractAnnotationConfigDispatcherS
      * @return
      */
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{RootConfig.class, SecurityConfig.class};
+        return new Class<?>[]{RootConfig.class};
     }
 
     /**
-     * 我们要求DispatcherServlet加载应用上下文
+     * 我们要求DispatcherServlet加载Spring应用上下文
      *
      * @return
      */
@@ -32,12 +31,12 @@ public class SpittrWebAppInitializer extends AbstractAnnotationConfigDispatcherS
     }
 
     /**
-     * 将一个或多个路径映射 到DispatcherServlet上
+     * 将一个或多个路径映射到DispatcherServlet上
      *
      * @return
      */
     protected String[] getServletMappings() {
-        return new String[]{"/", "*.service"};
+        return new String[]{"/"};
     }
 
     /**
