@@ -24,5 +24,10 @@ public class RPCServiceTest {
         System.out.println(spitterService.helloSpitter());
     }
 
+    @Test
+    public void httpInvokerRPC() {
+        System.out.println(spitterService.helloSpitter());
+    }
+
 
 }
