@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.remoting.caucho.HessianProxyFactoryBean;
 import org.springframework.remoting.caucho.HessianServiceExporter;
-import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
@@ -76,27 +75,27 @@ public class RootConfig {
      * @param spitterService
      * @return
      */
-    @Bean
-    public HttpInvokerServiceExporter httpExportedSpitterService(SpitterService spitterService) {
-        HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
-        exporter.setService(spitterService);
-        exporter.setServiceInterface(SpitterService.class);
-        return exporter;
-    }
+//    @Bean
+//    public HttpInvokerServiceExporter httpExportedSpitterService(SpitterService spitterService) {
+//        HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
+//        exporter.setService(spitterService);
+//        exporter.setServiceInterface(SpitterService.class);
+//        return exporter;
+//    }
 
     /**
      * 配置HttpInovker模式下的HandlerMapping
      *
      * @return
      */
-    @Bean
-    public HandlerMapping httpInvokerMapping() {
-        SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
-        Properties mappings = new Properties();
-        mappings.setProperty("/spitter.service", "httpExportedSpitterService");
-        mapping.setMappings(mappings);
-        return mapping;
-    }
+//    @Bean
+//    public HandlerMapping httpInvokerMapping() {
+//        SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
+//        Properties mappings = new Properties();
+//        mappings.setProperty("/spitter.service", "httpExportedSpitterService");
+//        mapping.setMappings(mappings);
+//        return mapping;
+//    }
 
     /**
      * 访问HttpInvoker导出的远程服务
