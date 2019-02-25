@@ -4,11 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.remoting.caucho.HessianProxyFactoryBean;
 import org.springframework.remoting.caucho.HessianServiceExporter;
+import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
+import service.Spitter2Service;
 import service.SpitterService;
 
 import java.util.Properties;
@@ -56,49 +57,50 @@ public class RootConfig {
     }
 
     /**
-     * 访问Hessian服务的Bean，一般应该在另一个客户端应用中，此处偷懒
+     * Hessian客户端的Bean，
      *
      * @return
      */
-    @Bean
-    public HessianProxyFactoryBean spitterService() {
-        HessianProxyFactoryBean proxyFactoryBean = new HessianProxyFactoryBean();
-//        serviceUrl标示了这个服务的URL，Hessian是基于HTTP的，这里就是Http URL
-        proxyFactoryBean.setServiceUrl("http://localhost:8080/spittr/spitter.service");
-        proxyFactoryBean.setServiceInterface(SpitterService.class);
-        return proxyFactoryBean;
-    }
+//    @Bean
+//    public HessianProxyFactoryBean spitterService() {
+//        HessianProxyFactoryBean proxyFactoryBean = new HessianProxyFactoryBean();
+////        serviceUrl标示了这个服务的URL，Hessian是基于HTTP的，这里就是Http URL
+//        proxyFactoryBean.setServiceUrl("http://localhost:8080/spittr/spitter.service");
+//        proxyFactoryBean.setServiceInterface(SpitterService.class);
+//        return proxyFactoryBean;
+//    }
 
     /**
      * 把SpitterService通过HttpInovker的方式导出为远程服务
      *
-     * @param spitterService
+     * @param spitter2Service
      * @return
      */
-//    @Bean
-//    public HttpInvokerServiceExporter httpExportedSpitterService(SpitterService spitterService) {
-//        HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
-//        exporter.setService(spitterService);
-//        exporter.setServiceInterface(SpitterService.class);
-//        return exporter;
-//    }
+    @Bean
+    public HttpInvokerServiceExporter httpExportedSpitterService(Spitter2Service spitter2Service) {
+        HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
+        exporter.setService(spitter2Service);
+        exporter.setServiceInterface(Spitter2Service.class);
+        return exporter;
+    }
 
     /**
      * 配置HttpInovker模式下的HandlerMapping
      *
      * @return
      */
-//    @Bean
-//    public HandlerMapping httpInvokerMapping() {
-//        SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
-//        Properties mappings = new Properties();
-//        mappings.setProperty("/spitter.service", "httpExportedSpitterService");
-//        mapping.setMappings(mappings);
-//        return mapping;
-//    }
+    @Bean
+    public HandlerMapping httpInvokerMapping() {
+        SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
+        Properties mappings = new Properties();
+        mappings.setProperty("/spitter2.service", "httpExportedSpitterService");
+        mapping.setMappings(mappings);
+        mapping.setOrder(5);
+        return mapping;
+    }
 
     /**
-     * 访问HttpInvoker导出的远程服务
+     * HttpInvoker的客户端实现
      *
      * @return
      */
