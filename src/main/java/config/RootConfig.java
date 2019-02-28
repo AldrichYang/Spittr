@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.remoting.caucho.HessianServiceExporter;
 import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
+import org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
@@ -111,6 +112,14 @@ public class RootConfig {
 //        proxyFactoryBean.setServiceInterface(SpitterService.class);
 //        return proxyFactoryBean;
 //    }
+    @Bean
+    public SimpleJaxWsServiceExporter jaxWsServiceExporter() {
+        return new SimpleJaxWsServiceExporter();
+
+//        如果希望调整服务URL，可以调整基本地址
+//        SimpleJaxWsServiceExporter jaxWsServiceExporter = new SimpleJaxWsServiceExporter();
+//        jaxWsServiceExporter.setBaseAddress("http://localhost:8888/services/");
+    }
 
 
 }
