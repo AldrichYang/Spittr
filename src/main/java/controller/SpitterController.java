@@ -86,8 +86,6 @@ public class SpitterController {
             profilePicture.transferTo(new File("/data/spittr" + profilePicture.getName()));
         } catch (IOException ioe) {
             ioe.printStackTrace();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
         }
         return "registerForm";
 

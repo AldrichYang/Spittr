@@ -3,13 +3,20 @@ package config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.BeanNameViewResolver;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -25,11 +32,15 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @ComponentScan(basePackages = {"controller"})   // 启用组件扫描
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+    /**
+     * 将视图解析为Web应用的内部资源(一般为JSP)
+     * InternalResourceViewResolver所采取的方式并不那么直接。它遵循一种约定,会在视图名上添加前缀和后缀,进而确定一个Web应用中视图资源的物理路径
+     * 如果这些JSP使用JSTL标签来处理格式化和信息的话,那么我们会希望InternalResourceViewResolver将视图解析为JstlView
+     * @return
+     */
     @Bean
     public ViewResolver viewResolver() {
-// 将视图解析为Web应用的内部资源(一般为JSP)
-// InternalResourceViewResolver所采取的方式并不那么直接。它遵循一种约定,会在视图名上添加前缀和后缀,进而确定一个Web应用中视图资源的物理路径
-// 如果这些JSP使用JSTL标签来处理格式化和信息的话,那么我们会希望InternalResourceViewResolver将视图解析为JstlView
+//        处理HTML形式的视图解析器
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".jsp");
@@ -107,11 +118,37 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      * 从Spring 3.1开始,Spring内置了两个MultipartResolver的实现供我们选择:
      * CommonsMultipartResolver:使用Jakarta Commons FileUpload解析multipart请求;
      * StandardServletMultipartResolver:依赖于Servlet 3.0对multipart请求的支持(始于Spring 3.1)
+     *
      * @return
      */
     @Bean
-    public MultipartResolver multipartResolver(){
+    public MultipartResolver multipartResolver() {
         return new StandardServletMultipartResolver();
+    }
+
+    @Bean
+    public ViewResolver cnViewResolver(ContentNegotiationManager negotiationManager) {
+        ContentNegotiatingViewResolver viewResolver = new ContentNegotiatingViewResolver();
+        viewResolver.setContentNegotiationManager(negotiationManager);
+        return viewResolver;
+    }
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+//        默认为HTML
+        configurer.defaultContentType(MediaType.TEXT_HTML);
+    }
+
+    @Bean
+    public ViewResolver beanNameViewResolver() {
+//        以Bean的形式查找视图
+        return new BeanNameViewResolver();
+    }
+
+    @Bean
+    public View spittles() {
+//        将spittles定义为JSON视图
+        return new MappingJackson2JsonView();
     }
 
 
