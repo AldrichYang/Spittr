@@ -8,4 +8,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Spittle Not Found")
 public class SpittleNotFoundException extends RuntimeException {
+
+    public SpittleNotFoundException(long id) {
+        this.id = id;
+    }
+
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }
